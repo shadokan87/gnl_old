@@ -38,6 +38,7 @@ int	cpy_before_c(char **dst, char *src, char c)
 		tmp[i] = src[i];
 		i--;
 	}
+	free(*dst);
 	*dst = tmp;
 	return (ret);
 }
@@ -76,7 +77,6 @@ int	str_join(char **dst, char *src)
 	}
 	tmp[i] = '\0';
 	*dst = tmp;
-	//(!tmp2) ? free(tmp2) : 0;
 	return (1);
 }
 
@@ -97,6 +97,7 @@ int	check_ret(char **stack, char **line)
 	if (len(*stack))
 	{
 		ret = cpy_before_c(line, *stack, '\0');
+		free(*stack);
 		*stack = NULL;
 		return (1);
 	}

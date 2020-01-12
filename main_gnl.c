@@ -1,5 +1,6 @@
 #include "get_next_line.h"
 #include <stdio.h>
+#include <pthread.h>
 
 void	arrow(void)
 {
@@ -15,8 +16,8 @@ int	main(int argc, char **argv)
 	int ret;
 	int count;
 
-	ret = 0;
 	count = 0;
+	ret = 0;
 	fd1 = open(argv[1], O_RDONLY);
 	fd2 = open(argv[2], O_RDONLY);
 	fd3 = open(argv[3], O_RDONLY);
@@ -79,7 +80,7 @@ int	main(int argc, char **argv)
 		arrow();
 		printf(" %s |%d|\n", line3, ret);
 	}
-printf("\033[0;33m");
+	printf("\033[0;33m");
 	printf("\nLines count --> %d", count);
 	printf("\033[0;0m");
 	count = 0;
@@ -102,7 +103,4 @@ printf("\033[0;33m");
 	printf("\033[0;33m");
 	printf("\nLines count --> %d", count);
 	printf("\033[0;0m");
-
-	count = 0;
-	ret = 0;
 }

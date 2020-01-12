@@ -9,6 +9,7 @@
  #include <sys/uio.h>
  #include <stdlib.h>
  #include <fcntl.h>
+#include "Memd/mem.h"
 
 int	get_next_line(int fd, char **line);
 int	cpy_before_c(char **dst, char *src, char c);
