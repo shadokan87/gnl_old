@@ -38,7 +38,6 @@ int	cpy_before_c(char **dst, char *src, char c)
 		tmp[i] = src[i];
 		i--;
 	}
-	free(*dst);
 	*dst = tmp;
 	return (ret);
 }
@@ -77,6 +76,29 @@ int	str_join(char **dst, char *src)
 	}
 	tmp[i] = '\0';
 	*dst = tmp;
-	(!tmp2) ? free(tmp2) : 0;
+	//(!tmp2) ? free(tmp2) : 0;
 	return (1);
+}
+
+int	check_ret(char **stack, char **line)
+{
+	int ret;
+	char *tmp;
+
+	ret = 0;
+	if (c_is_present(*stack, ENDL))
+	{
+		ret = cpy_before_c(line, *stack, ENDL);
+		tmp = *stack + 1 + ret;
+		//free(*stack);
+		*stack = tmp;
+		return (1);
+	}
+	if (len(*stack))
+	{
+		ret = cpy_before_c(line, *stack, '\0');
+		*stack = NULL;
+		return (1);
+	}
+	return (0);
 }
