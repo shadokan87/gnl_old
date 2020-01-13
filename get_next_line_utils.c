@@ -12,34 +12,26 @@ int	c_is_present(char *str, char c)
 	while (str[i])
 	{
 		if (str[i] == c)
-			return (1);
+			return (i);
 		i++;
 	}
-	return (0);
+	return (c == '\0' ? i : 0);
 }
 
-int	cpy_before_c(char **dst, char *src, char c)
+char	*ft_strndup(char *str, int len)
 {
+	char *ret;
 	int i;
-	int ret;
-	char *tmp;
 
 	i = 0;
-	while (src[i] != c && src[i])
-		i++;
-	ret = i;
-	if ((!(tmp = malloc(sizeof(char) * i + 1))) ||
-	src[i] != c)
-		return (0);
-	tmp[i] = '\0';
-	i--;
-	while (i >= 0)
+	if (!(ret = malloc(sizeof(char) * len + 1)))
+		return (NULL);
+	while (i < len && str[i])
 	{
-		tmp[i] = src[i];
-		i--;
+		ret[i] = str[i];
+		i++;
 	}
-	free(*dst);
-	*dst = tmp;
+	ret[i] = '\0';
 	return (ret);
 }
 
@@ -61,8 +53,11 @@ int	str_join(char **dst, char *src)
 
 	i = 0;
 	if (!*dst)
-		return (cpy_before_c(dst, src, '\0'));
-	if (!(tmp = malloc(sizeof(char) * len(*dst) + len(src) + 1)))
+	{
+		*dst = ft_strndup(src, c_is_present(src, '\0'));
+		return (1);
+	}
+	if (!(tmp = malloc(sizeof(char) * c_is_present(*dst, '\0') + c_is_present(src, '\0') + 1)))
 		return (0);
 	tmp2 = *dst;
 	while (tmp2[i])
@@ -85,19 +80,16 @@ int	check_ret(char **stack, char **line)
 	int ret;
 	char *tmp;
 
-	ret = 0;
-	if (c_is_present(*stack, ENDL))
+	if ((ret = c_is_present(*stack, ENDL)))
 	{
-		ret = cpy_before_c(line, *stack, ENDL);
-		tmp = *stack + 1 + ret;
-		//free(*stack);
+		*line = ft_strndup(*stack, ret);
+		tmp = *stack + ret + 1;
 		*stack = tmp;
 		return (1);
 	}
-	if (len(*stack))
+	else if ((ret = c_is_present(*stack, '\0')))
 	{
-		ret = cpy_before_c(line, *stack, '\0');
-		free(*stack);
+		*line = ft_strndup(*stack, ret);
 		*stack = NULL;
 		return (1);
 	}

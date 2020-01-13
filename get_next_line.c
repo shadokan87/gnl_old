@@ -19,3 +19,15 @@ int	get_next_line(int fd, char **line)
 	}
 	return (check_ret(&stack[fd], line));
 }
+
+/*
+int	main(int argc, char **argv)
+{
+	int fd = open(argv[1], O_RDONLY);
+	char *line;
+	int ret;
+
+
+	get_next_line(fd, &line);
+	printf("%s", line);
+}*/
